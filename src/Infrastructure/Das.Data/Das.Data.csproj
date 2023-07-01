@@ -13,9 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Das.Application\Das.Application.csproj" />
     <ProjectReference Include="..\..\core\Das.Domain\Das.Domain.csproj" />
-    <ProjectReference Include="..\Das.Application\Das.Application.csproj" />
-    <ProjectReference Include="..\Das.Shared\Das.Shared.csproj" />
   </ItemGroup>
 
 </Project>

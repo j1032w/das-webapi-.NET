@@ -4,8 +4,8 @@ namespace Das.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class ResidentialPropertyController : ControllerBase
     {
-
+        
     }
 }

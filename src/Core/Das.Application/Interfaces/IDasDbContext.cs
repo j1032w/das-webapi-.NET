@@ -1,6 +1,6 @@
 using System.Data;
 
-namespace Das.Data;
+namespace Das.Application.Interfaces;
 
 public interface IDasDbContext
 {

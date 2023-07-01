@@ -1,10 +1,7 @@
-using Das.Data;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddSingleton<DasDbContext>();
+
 
 
 builder.Services.AddControllers();
@@ -21,8 +18,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwagger(); // middleware that generates the OpenAPI document
+    app.UseSwaggerUI(); // Renders the Swagger UI web page
 }
 
 app.UseHttpsRedirection();

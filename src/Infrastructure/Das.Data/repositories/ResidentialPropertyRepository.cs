@@ -1,8 +1,8 @@
 using System.Data;
 using Dapper;
 using Das.Application.Interfaces;
+using Das.Application.ResidentialProperties;
 using Das.Domain.Entities;
-
 
 namespace Das.Data.repositories;
 
@@ -13,17 +13,17 @@ public class ResidentialPropertyRepository : IResidentialPropertyRepository
 
     public ResidentialPropertyRepository(IDasDbContext dbContext)
     {
-        this._dbContext = dbContext;
+        _dbContext = dbContext;
     }
 
     public async Task<IReadOnlyList<ResidentialProperty>> GetAllAsync()
     {
-        using IDbConnection connection = _dbContext.CreateConnection();
+        using var connection = _dbContext.CreateConnection();
         connection.Open();
         var result = await connection.QueryAsync<ResidentialProperty>(
-        "GetAllResidentialProperties", 
+            "GetAllResidentialProperties",
             commandType: CommandType.StoredProcedure);
-        
+
         // AsList() is a custom Dapper extension method.
         // AsList() returns it back, just casts to List<T>. If it's not - it calls regular ToList.
         // AsList() avoid the creation of copy if the result is already a list.
@@ -51,4 +51,5 @@ public class ResidentialPropertyRepository : IResidentialPropertyRepository
     {
         throw new NotImplementedException();
     }
+   
 }
