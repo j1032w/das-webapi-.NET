@@ -5,9 +5,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace Das.Data;
 
-public class DasDbContext : IDasDbContext
-{
+public class DasDbContext : IDasDbContext {
     private readonly string _connectionString = "";
+
 
 
     public DasDbContext(IConfiguration? configuration)
@@ -17,8 +17,7 @@ public class DasDbContext : IDasDbContext
     }
 
 
-    public IDbConnection CreateConnection()
-    {
+    public IDbConnection CreateConnection() {
         return new SqlConnection(_connectionString);
     }
 }
