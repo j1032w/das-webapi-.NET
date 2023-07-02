@@ -1,11 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Das.WebApi.Controllers
-{
-    [ApiController]
-    [Route("[controller]")]
-    public class ResidentialPropertyController : ControllerBase
-    {
-        
+namespace Das.WebApi.Controllers; 
+
+public class ResidentialPropertyController : VersionedApiController {
+    [HttpGet]
+    public IActionResult Get() {
+        return new OkResult();
     }
 }
