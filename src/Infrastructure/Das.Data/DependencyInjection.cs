@@ -9,7 +9,8 @@ public static class DependencyInjection {
     public static IServiceCollection AddInfrastructureData(this IServiceCollection services) {
         services.AddSingleton<IDasDbContext, DasDbContext>();
 
-        services.AddScoped<IResidentialPropertyRepository, ResidentialPropertyRepository>();
+        services.AddScoped(typeof(IRepository<>), typeof(SqlRepository<>));
+        
 
 
         return services;

@@ -1,7 +1,7 @@
-﻿namespace Das.Domain.ResidentialProperties;
+﻿namespace Das.Application.ResidentialProperties; 
 
-public class ResidentialProperty {
-    public required int Id { get; set; } = 0;
+public class ResidentialPropertyDto {
+    public required string Id { get; set; } = "";
     public string? BuildingAmenity { get; set; }
     public int? BuildingBathroomTotal { get; set; }
     public int? BuildingBedroom { get; set; }
@@ -23,6 +23,5 @@ public class ResidentialProperty {
     public string? ProvinceName { get; set; }
     public string? PublicRemark { get; set; }
     public string? City { get; set; }
-    public DateTime? ListedTime { get; set; }
-    public DateTime? ModifiedTime { get; set; }
+    public required DateTime ListedTime { get; set; } = DateTime.Now;
 }

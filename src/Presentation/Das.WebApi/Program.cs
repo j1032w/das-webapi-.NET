@@ -12,11 +12,16 @@ using var log = new LoggerConfiguration().ReadFrom.Configuration(builder.Configu
 Log.Logger = log;
 
 
-// Add services to the container.
+#region Dependency Injection
 builder.Services.AddCoreApplication();
 builder.Services.AddInfrastructureData();
 
+#endregion
 
+
+
+#region Services Configuration
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Api versioning
 builder.Services.AddApiVersioning(options => {
@@ -32,21 +37,32 @@ builder.Services.AddVersionedApiExplorer(options => {
 });
 
 
-builder.Services.AddControllers();
+builder.Services
+    .AddControllers()
+    .AddNewtonsoftJson();
 
+// discard properties with null values.
+builder.Services.Configure<MvcNewtonsoftJsonOptions>(opts => {
+    opts.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+});
 
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHealthChecks();
 
 builder.Services.AddSwaggerGen(options => {
+    options.EnableAnnotations();
     options.SwaggerDoc(
         "v1",
         new OpenApiInfo { Title = "Dashboard Starter", Version = "v1.0" });
 });
 
+#endregion
+
+
 
 var app = builder.Build();
+
 
 
 #region Middleware
@@ -83,5 +99,7 @@ app.MapControllers();
 Log.Information("Das WebApi .NET started");
 
 #endregion
+
+
 
 app.Run();

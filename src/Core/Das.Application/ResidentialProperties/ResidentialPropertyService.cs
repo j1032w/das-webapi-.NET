@@ -1,20 +1,26 @@
+using AutoMapper;
+using Das.Application.Interfaces;
 using Das.Domain.Entities;
 using Das.Domain.Enum;
+using Das.Domain.ResidentialProperties;
 
 namespace Das.Application.ResidentialProperties;
 
 public class ResidentialPropertyService : IResidentialPropertyService
 {
-    private readonly IResidentialPropertyRepository _residentialPropertyRepository;
+    private readonly IRepository<ResidentialProperty> _residentialPropertyRepository;
+    private readonly IMapper _mapper;
     
-    public ResidentialPropertyService(IResidentialPropertyRepository  residentialPropertyRepository)
+    public ResidentialPropertyService(IRepository<ResidentialProperty> residentialPropertyRepository, IMapper _mapper)
     {
         this._residentialPropertyRepository = residentialPropertyRepository; 
+        this._mapper = _mapper;
     }
     
-    public async Task<IReadOnlyList<ResidentialProperty>> GetAllAsync()
-    {
-        return await _residentialPropertyRepository.GetAllAsync();
+    public async Task<ResidentialPropertyDto> GetByIdAsync(int id) {
+        var residentialProperty = await _residentialPropertyRepository.FindByIdAsync(id, "uspResidentialPropertyGetById");
+
+        return _mapper.Map<ResidentialPropertyDto>(residentialProperty) ;
     }
 
 
