@@ -17,16 +17,46 @@ public class ResidentialPropertyService : IResidentialPropertyService
         this._mapper = _mapper;
     }
     
-    public async Task<ResidentialPropertyDto> GetByIdAsync(int id) {
-        var residentialProperty = await _residentialPropertyRepository.FindByIdAsync(id, "uspResidentialPropertyGetById");
+    public async Task<ResidentialPropertyDto> FindByIdAsync(int id) {
+        var residentialProperty = await _residentialPropertyRepository.FindByIdAsync(id, "uspResidentialPropertyFindById");
 
         return _mapper.Map<ResidentialPropertyDto>(residentialProperty) ;
     }
 
 
+    public Task<int> Insert(ResidentialPropertyDto residentialPropertyDto) {
+        throw new NotImplementedException();
+    }
 
-    public List<ResidentialSaleState> CalculateSaleState(List<ResidentialProperty> residentialProperties)
-    {
+    public Task<int> Delete(ResidentialPropertyDto residentialPropertyDto) {
+        throw new NotImplementedException();
+    }
+
+    public Task<int> Update(ResidentialPropertyDto residentialPropertyDto) {
+        throw new NotImplementedException();
+    }
+
+
+    public async Task<IReadOnlyList<ResidentialPropertyDto>> FindAsync(ResidentialPropertySearchCriteria searchCriteria) {
+        var sql = @$"uspResidentialPropertyFindAll                          
+                        {CreateSpParam(searchCriteria.City, "City")},
+                        {CreateSpParam(searchCriteria.BuildingType, "BuildingType")},
+                        {CreateSpParam(searchCriteria.MinPrice.ToString(), "MinPrice")},
+                        {CreateSpParam(searchCriteria.MaxPrice.ToString(), "MaxPrice")}";
+
+        var residentialProperty = await _residentialPropertyRepository.FindAsync(sql);
+
+        return _mapper.Map<IReadOnlyList<ResidentialPropertyDto>>(residentialProperty);
+    }
+
+    private string CreateSpParam(string? value, string field) {
+        return String.IsNullOrEmpty(value) ? $"@{field}=null" : $"@{field}='{value}'";
+    }
+
+
+    public async Task<IReadOnlyList<ResidentialSaleState>> GetSaleStateAsync(ResidentialPropertySearchCriteria searchCriteria) {
+        var residentialProperties = await FindAsync(searchCriteria);
+
         var groups = residentialProperties.GroupBy(x => x.BuildingType);
         var totalProperties = residentialProperties.Count();
         var saleState = new List<ResidentialSaleState>();

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,9 +53,27 @@ builder.Services.AddHealthChecks();
 
 builder.Services.AddSwaggerGen(options => {
     options.EnableAnnotations();
+    options.EnableAnnotations(enableAnnotationsForInheritance: true, enableAnnotationsForPolymorphism: true);
+
     options.SwaggerDoc(
         "v1",
-        new OpenApiInfo { Title = "Dashboard Starter", Version = "v1.0" });
+        new OpenApiInfo {
+            Title = "Dashboard Starter",
+            Description = "The backend .NET Web API for Dashboard Starter",
+            Version = "v1.0",
+            License = new OpenApiLicense {
+                Name = "Use under MIT",
+                Url = new Uri("https://opensource.org/license/mit/"),
+            },
+            Contact = new OpenApiContact {
+                Name = "J1032",
+                Email = string.Empty,
+                Url = new Uri("https://github.com/j1032w/das-webapi-.NET"),
+            },
+        });
+
+    options.IncludeXmlComments(Path.Combine(System.AppContext.BaseDirectory, "Das.WebApi.xml"));
+    options.IncludeXmlComments(Path.Combine(System.AppContext.BaseDirectory, "Das.Application.xml"));
 });
 
 #endregion

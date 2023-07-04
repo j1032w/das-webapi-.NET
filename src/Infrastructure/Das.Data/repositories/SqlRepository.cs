@@ -23,21 +23,13 @@ public class SqlRepository<T> : IRepository<T> where T : class {
         throw new NotImplementedException();
     }
 
-    public Task<IReadOnlyList<T>> FindAsync() {
-        throw new NotImplementedException();
-    }
-
     public async Task<T?> FindByIdAsync(long id, string storedProcedure) {
         var parameters = new {Id = id };
-        var sql = $"exec {storedProcedure} @Id";
+        var sql = $"exec {storedProcedure} @Id=id";
 
         using var connection = _dbContext.CreateConnection();
         connection.Open();
-        IEnumerable<T?> result = await connection.QueryAsync<T>(
-            sql,
-            parameters
-        );
-        
+        IEnumerable<T?> result = await connection.QueryAsync<T>(sql);
 
 
         return result.First() ?? null;
@@ -49,13 +41,10 @@ public class SqlRepository<T> : IRepository<T> where T : class {
     }
 
 
-    public async Task<IReadOnlyList<T>> FindAsync(int id) {
+    public async Task<IReadOnlyList<T>> FindAsync(string sql) {
         using var connection = _dbContext.CreateConnection();
         connection.Open();
-        var result = await connection.QueryAsync<T>(
-            "uspResidentialPropertyGetById",
-            id,
-            commandType: CommandType.StoredProcedure);
+        var result = await connection.QueryAsync<T>(sql);
 
         // AsList() is a custom Dapper extension method.
         // AsList() returns it back, just casts to List<T>. If it's not - it calls regular ToList.
