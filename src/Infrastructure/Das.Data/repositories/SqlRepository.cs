@@ -53,4 +53,6 @@ public class SqlRepository<T> : IRepository<T> where T : class {
         // Without AsList(), the code runs the risk of remunerating through the result set multiple times,
         return result.AsList();
     }
+
+   
 }
