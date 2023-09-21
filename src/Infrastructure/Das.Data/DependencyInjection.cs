@@ -1,16 +1,17 @@
 using Das.Application.Interfaces;
-using Das.Application.ResidentialProperties;
-using Das.Data.repositories;
+using Das.Data.Common;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Das.Data;
 
-public static class DependencyInjection {
-    public static IServiceCollection AddInfrastructureData(this IServiceCollection services) {
-        services.AddSingleton<IDasDbContext, DasDbContext>();
+public static class DependencyInjection
+{
+    public static IServiceCollection AddInfrastructureData(this IServiceCollection services)
+    {
+        services.AddSingleton<IDbContext, DbContext>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IResidentialPropertyRepository, ResidentialPropertyRepository>();
 
-        services.AddScoped(typeof(IRepository<>), typeof(SqlRepository<>));
-        
 
 
         return services;

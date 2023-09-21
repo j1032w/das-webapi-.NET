@@ -2,7 +2,8 @@ using Das.Domain.Entities;
 
 namespace Das.Application.ResidentialProperties;
 
-public interface IResidentialPropertyService {
+public interface IResidentialPropertyService
+{
     Task<ResidentialPropertyDto> FindByIdAsync(int id);
     Task<IReadOnlyList<ResidentialPropertyDto>> FindAsync(ResidentialPropertySearchCriteria searchCriteria);
 

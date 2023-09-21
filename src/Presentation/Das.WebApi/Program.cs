@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.OpenApi.Models;
 using Serilog;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,13 +24,15 @@ builder.Services.AddInfrastructureData();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Api versioning
-builder.Services.AddApiVersioning(options => {
+builder.Services.AddApiVersioning(options =>
+{
     options.ApiVersionReader = new UrlSegmentApiVersionReader();
     options.AssumeDefaultVersionWhenUnspecified = true;
     options.DefaultApiVersion = new ApiVersion(1, 0);
 });
 
-builder.Services.AddVersionedApiExplorer(options => {
+builder.Services.AddVersionedApiExplorer(options =>
+{
     options.GroupNameFormat = "'v'VVV";
     options.SubstituteApiVersionInUrl = true;
     options.SubstitutionFormat = "VVV";
@@ -43,7 +44,8 @@ builder.Services
     .AddNewtonsoftJson();
 
 // discard properties with null values.
-builder.Services.Configure<MvcNewtonsoftJsonOptions>(opts => {
+builder.Services.Configure<MvcNewtonsoftJsonOptions>(opts =>
+{
     opts.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 });
 
@@ -51,21 +53,25 @@ builder.Services.Configure<MvcNewtonsoftJsonOptions>(opts => {
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHealthChecks();
 
-builder.Services.AddSwaggerGen(options => {
+builder.Services.AddSwaggerGen(options =>
+{
     options.EnableAnnotations();
     options.EnableAnnotations(enableAnnotationsForInheritance: true, enableAnnotationsForPolymorphism: true);
 
     options.SwaggerDoc(
         "v1",
-        new OpenApiInfo {
+        new OpenApiInfo
+        {
             Title = "Dashboard Starter",
             Description = "The backend .NET Web API for Dashboard Starter",
             Version = "v1.0",
-            License = new OpenApiLicense {
+            License = new OpenApiLicense
+            {
                 Name = "Use under MIT",
                 Url = new Uri("https://opensource.org/license/mit/"),
             },
-            Contact = new OpenApiContact {
+            Contact = new OpenApiContact
+            {
                 Name = "J1032",
                 Email = string.Empty,
                 Url = new Uri("https://github.com/j1032w/das-webapi-.NET"),
@@ -90,10 +96,12 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 
-if (app.Environment.IsDevelopment()) {
+if (app.Environment.IsDevelopment())
+{
     app.UseSwagger();
-    
-    app.UseSwaggerUI(options => {
+
+    app.UseSwaggerUI(options =>
+    {
         options.SwaggerEndpoint(
             $"/swagger/v1/swagger.json",
             $"Dashboard Starter v1");
@@ -102,8 +110,9 @@ if (app.Environment.IsDevelopment()) {
     app.UseDeveloperExceptionPage();
     app.MapGet("/", () => "Das WebApi!");
 }
-else {
-    // Once the first HTTPS secure connection is established,
+else
+{
+    // Once the first HTTPS secure DbConnection is established,
     // the strict-security header prevents future redirections that might be used to perform man -in-the - middle attacks.
     app.UseHsts();
     app.UseExceptionHandler("/error");

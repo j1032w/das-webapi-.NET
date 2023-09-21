@@ -7,6 +7,7 @@ DECLARE
     v_total    INTEGER;
     PRAGMA AUTONOMOUS_TRANSACTION;
 BEGIN
+     EXECUTE IMMEDIATE 'ALTER SESSION SET CURRENT_SCHEMA=' || v_username;
 
     INSERT INTO "residential_properties"("building_amenity",
                                          "building_bathroom_total",

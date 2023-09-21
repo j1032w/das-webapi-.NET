@@ -32,7 +32,7 @@ DROP USER DASHBOARD CASCADE
 ![Demo](documentations/screen-residential-property-api.png)
 <br/>  
 <br/>
-![Demo](documentations/screen-get-sale-stats.png)
+
 
 ## Design
 ![Demo](documentations/design-uml.png)

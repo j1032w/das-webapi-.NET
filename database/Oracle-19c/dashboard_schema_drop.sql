@@ -1,7 +1,7 @@
 -- NAME
 --   dashboard_uninstall.sql
 --
--- DESCRIPTON
+-- DESCRIPTION
 --   This script removes the Dashboard schema.
 --   Run as privileged user with rights to create another user (SYSTEM, ADMIN, etc.)
 --

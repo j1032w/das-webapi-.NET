@@ -69,7 +69,7 @@ BEGIN
             SELECT *
             FROM "residential_properties"
             WHERE (UPPER("city") = UPPER(i_city) OR i_city IS NULL)
-              AND (UPPER("building_type") = i_building_type OR i_building_type IS NULL)
+              AND (UPPER("building_type") = UPPER(i_building_type) OR i_building_type IS NULL)
               AND ("price_unformatted_value" >= i_min_price OR i_max_price IS NULL)
               AND ("price_unformatted_value" <= i_max_price OR i_max_price IS NULL);
 
@@ -82,13 +82,13 @@ BEGIN
     EXECUTE IMMEDIATE '
     CREATE OR REPLACE PROCEDURE "residential_properties_find_by_id_prc"(
         i_id IN "residential_properties"."id"%TYPE,
-        o_result OUT "residential_properties"%ROWTYPE)
+        o_result OUT SYS_REFCURSOR)
     AS
     BEGIN
-        SELECT *
-        INTO o_result
-        FROM "residential_properties"
-        WHERE "id" = i_id;
+        OPEN o_result FOR
+            SELECT *
+            FROM "residential_properties"
+            WHERE "id" = i_id;
     END;
     ';
 
@@ -166,7 +166,8 @@ BEGIN
                 i_province_name,
                 i_public_remark,
                 i_city,
-                i_listed_time);
+                i_listed_time)
+        RETURNING "id" INTO o_id;
         COMMIT;
     END;';
 
